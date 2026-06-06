@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduLink — AI Study Groups for African Students</title>
+<link rel="stylesheet" href="page.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+:root{
+  --bg:#090818;
+  --s1:#0c0820;
+  --s2:#130d2d;
+  --s3:#171138;
+  --s4:#1d143f;
+  --border:rgba(255,255,255,0.08);
+  --v:#7c3aed;
+  --v2:#8b5cf6;
+  --v3:#0c0821;
+  --v4:#a78bfa;
+  --vg:rgba(139,92,246,.18);
+  --tl:#f59e0b;
+  --am:#fb923c;
+  --cr2:#f97316;
+  --su:#fbbf24;
+  --er:#fb7185;
+  --t1:#ffffff;
+  --t2:#f3e8ff;
+  --t3:#d8b4fe;
+  --t4:#c084fc;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(circle at 10% 5%, rgba(139,92,246,.18), transparent 18%), radial-gradient(circle at 90% 12%, rgba(248,186,64,.12), transparent 20%), radial-gradient(circle at 50% 88%, rgba(251,145,60,.10), transparent 24%), linear-gradient(160deg,#080518 0%,#100b22 18%,#150f32 45%,#120f2f 72%,#0b0820 100%);color:var(--t1);font-family:'DM Sans',sans-serif;overflow-x:hidden;background-attachment:fixed;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(9,5,18,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.nav-logo{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none}
+.nav-logo .site-logo{height:56px;width:auto;display:block;background:transparent}
+.nav-logo .logo-text{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--t1);line-height:1;letter-spacing:0.6px;text-transform:uppercase}
+.nav-logo .logo-text span{color:var(--v2)}
+.footer-logo{display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none}
+.footer-logo .site-logo{height:46px;width:auto;display:block;background:transparent}
+.footer-logo .logo-text{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--t1);line-height:1;letter-spacing:0.5px;text-transform:uppercase}
+.footer-logo .logo-text span{color:var(--v2)}
+.nav-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--t2);border-radius:12px;padding:10px 14px;font-size:18px;cursor:pointer;transition:all .2s;z-index:210}
+.nav-toggle:hover{background:rgba(255,255,255,.06)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none;z-index:200}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--t1)}
+.nav-cta{background:linear-gradient(135deg,var(--v),var(--tl))!important;color:#fff!important;padding:10px 22px;border-radius:50px;font-weight:700!important;box-shadow:0 14px 32px rgba(251,145,60,.18)}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 20px 40px rgba(251,145,60,.24)}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 48px 80px;gap:80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:12%;right:-100px;width:360px;height:360px;background:radial-gradient(circle,rgba(192,132,252,.22),transparent 64%);filter:blur(48px);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:8%;left:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(139,92,246,.14),transparent 58%);filter:blur(60px);pointer-events:none}
+.hero-floats{position:absolute;inset:0;pointer-events:none;z-index:0}
+.float-icon{position:absolute;width:60px;height:60px;border-radius:22px;background:rgba(251,145,60,.10);border:1px solid rgba(251,145,60,.18);color:#fff1e8;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(8px);box-shadow:0 0 28px rgba(251,145,60,.18);animation:float 6.4s ease-in-out infinite}
+.icon-books{top:18%;left:72%;transform:rotate(5deg);animation-delay:0s}
+.icon-brain{top:60%;left:82%;transform:rotate(-11deg);animation-delay:0.4s}
+.icon-pencil{top:12%;right:16%;transform:rotate(9deg);animation-delay:0.8s}
+.icon-chat{bottom:22%;left:10%;transform:rotate(-13deg);animation-delay:1.2s}
+.icon-star{top:28%;left:14%;transform:rotate(12deg);animation-delay:1.6s}
+.icon-rocket{top:75%;right:12%;transform:rotate(-8deg);animation-delay:2s}
+.icon-bulb{bottom:35%;right:20%;transform:rotate(6deg);animation-delay:0.6s}
+.icon-target{top:45%;left:8%;transform:rotate(-15deg);animation-delay:1.4s}
+.icon-robot{top:20%;right:22%;transform:rotate(18deg);animation-delay:2.4s}
+.icon-circuit{bottom:12%;left:32%;transform:rotate(8deg);animation-delay:2.8s}
+.hero-left{flex:1;max-width:520px;position:relative;z-index:1}
+.hero-right{flex:0 0 auto;position:relative;z-index:1}
+.hero .hero-dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--v);opacity:.72;pointer-events:none;animation:float 5s ease-in-out infinite}
+.hero .hero-dot:nth-of-type(1){top:25%;left:12%;animation-delay:0s}
+.hero .hero-dot:nth-of-type(2){top:40%;left:80%;width:16px;height:16px;background:var(--tl);animation-delay:1.2s}
+.hero .hero-dot:nth-of-type(3){top:72%;left:24%;width:10px;height:10px;background:var(--v2);animation-delay:2.4s}
+.hero .hero-dot:nth-of-type(4){top:60%;left:60%;width:14px;height:14px;background:var(--v2);animation-delay:3.4s}
+.live-pill{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:600;color:var(--t1);background:rgba(251,145,60,.12);border:1px solid rgba(251,145,60,.25);border-radius:999px;padding:10px 16px;margin-bottom:18px;animation:fadeUp .6s .05s ease both}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--tl);box-shadow:0 0 0 rgba(251,145,60,.4);animation:pulse 1.8s infinite}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(251,145,60,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.06) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;opacity:.55}
+.bg-particles{position:fixed;inset:0;pointer-events:none;z-index:5}
+.bg-particles span{position:absolute;border-radius:50%;opacity:.15;background:rgba(251,145,60,.88);box-shadow:0 0 24px rgba(251,145,60,.35);animation:drift 12s linear infinite}
+.bg-particles span:nth-child(1){width:14px;height:14px;top:18%;left:14%;animation-duration:10s;animation-delay:0s}
+.bg-particles span:nth-child(2){width:10px;height:10px;top:62%;left:26%;animation-duration:14s;animation-delay:1.2s}
+.bg-particles span:nth-child(3){width:18px;height:18px;top:34%;left:82%;animation-duration:11.5s;animation-delay:2.1s}
+.bg-particles span:nth-child(4){width:12px;height:12px;top:78%;left:68%;animation-duration:13s;animation-delay:.9s}
+.bg-particles span:nth-child(5){width:16px;height:16px;top:52%;left:44%;animation-duration:9s;animation-delay:3.4s}
+.bg-particles span:nth-child(6){width:22px;height:22px;top:28%;left:56%;animation-duration:15s;animation-delay:1.8s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(8px,-18px) scale(1.18);opacity:.22}100%{transform:translate(0,0) scale(1);opacity:.15}}
+.orb1{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(251,145,60,.24) 0%,transparent 68%);top:-220px;left:-80px;pointer-events:none}
+.orb2{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.14) 0%,transparent 70%);bottom:-120px;right:-120px;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(251,145,60,.12);border:1px solid rgba(251,145,60,.25);border-radius:50px;padding:8px 16px;font-size:12px;color:var(--tl);font-weight:500;letter-spacing:.5px;margin-bottom:28px;animation:fadeUp .6s ease both}
+.badge-dot{width:6px;height:6px;background:var(--tl);border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.35}100%{transform:scale(1);opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(38px,5vw,66px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;animation:fadeUp .6s .1s ease both}
+.grad{display:block;background:linear-gradient(135deg,var(--v) 0%,var(--v2) 45%,var(--tl) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:#dde4ff;line-height:1.75;font-weight:400;margin-bottom:36px;animation:fadeUp .6s .2s ease both;max-width:620px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px;animation:fadeUp .6s .3s ease both}
+.btn-primary{background:linear-gradient(135deg,var(--v),var(--tl));color:#fff;border:none;border-radius:50px;padding:16px 32px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;box-shadow:0 14px 34px rgba(251,145,60,.2)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(251,145,60,.24);background:linear-gradient(135deg,var(--tl),var(--v2))}
+.btn-ghost{background:rgba(255,255,255,.05);border:1px solid rgba(251,145,60,.2);color:var(--t1);border-radius:50px;padding:16px 28px;font-size:15px;font-weight:500;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.btn-ghost:hover{border-color:var(--tl);color:var(--tl);background:rgba(251,145,60,.08)}
+.support-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--v),var(--tl));color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;text-decoration:none;box-shadow:0 14px 28px rgba(251,145,60,.18);transition:transform .2s}
+.support-btn:hover{transform:translateY(-1px)}
+.help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:24px}
+.help-card{background:var(--s1);border:1px solid var(--border);border-radius:22px;padding:24px;transition:transform .2s}
+.help-card:hover{transform:translateY(-4px)}
+.help-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;color:var(--t1)}
+.help-card p{font-size:14px;color:#dbe4ff;line-height:1.7}
+.faq-grid{display:grid;gap:14px;margin-top:24px}
+.faq-card{background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:20px}
+.faq-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;color:var(--t1)}
+.faq-card p{font-size:14px;color:#dbe4ff;line-height:1.7}
+.team-credit{font-size:12px;color:var(--t3);margin-top:10px}
+.hero-stats{display:flex;gap:40px;animation:fadeUp .6s .4s ease both}
+.hero-next{font-size:13px;color:#cfeefd;line-height:1.7;margin-top:18px;max-width:520px}
+.hstat-num{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.hstat-num span{color:var(--v2)}
+.hstat-label{font-size:12px;color:var(--t3);margin-top:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* PHONE DEMO */
+.phone-demo-wrap{position:relative;animation:fadeUp .8s .5s ease both}
+.hero-right::before{content:'';position:absolute;top:12%;right:-40px;width:420px;height:420px;background:linear-gradient(140deg,rgba(251,145,60,.18),transparent 65%);transform:rotate(18deg);filter:blur(30px);pointer-events:none}
+.phone-ring{position:absolute;top:50%;left:50%;width:420px;height:420px;transform:translate(-50%,-50%);border:1px solid rgba(251,145,60,.18);border-radius:50%;pointer-events:none;filter:blur(10px);box-shadow:0 0 90px rgba(251,145,60,.22)}
+.phone-ring-inner{position:absolute;top:50%;left:50%;width:320px;height:320px;transform:translate(-50%,-50%) rotate(18deg);border:1px dashed rgba(251,145,60,.22);border-radius:50%;pointer-events:none}
+.phone-ring-spot{position:absolute;width:18px;height:18px;border-radius:50%;background:rgba(251,145,60,.9);top:18%;right:16%;box-shadow:0 0 28px rgba(251,145,60,.95);pointer-events:none;animation:float 4.2s ease-in-out infinite}
+.phone-ring-spot.alt{top:auto;bottom:16%;left:14%;background:rgba(251,145,60,.5);box-shadow:0 0 28px rgba(251,145,60,.6);animation-delay:1.3s}
+.phone-glow{position:absolute;inset:-60px;background:radial-gradient(ellipse at center,rgba(251,145,60,.22) 0%,rgba(251,145,60,.12) 28%,transparent 70%);pointer-events:none;animation:gp 3s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:.7}50%{opacity:1}}
+.screen-nav{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:12px}
+.snav-btn{background:var(--s3);border:1px solid var(--border);color:var(--t2);border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;transition:all .15s;user-select:none}
+.snav-btn:hover{background:var(--v3);border-color:var(--v4);color:var(--v2)}
+.screen-chip{background:var(--s2);border:1px solid var(--border);border-radius:50px;padding:5px 16px;font-size:11px;color:var(--t2);min-width:120px;text-align:center}
+.phone-shell{width:300px;background:#110b1f;border:1px solid rgba(251,145,60,.18);border-radius:44px;overflow:hidden;box-shadow:0 40px 90px rgba(251,145,60,.12),0 0 0 1px rgba(251,145,60,.08);position:relative;transform:rotate(-4deg);transform-origin:center;transition:transform .3s}
+.hero-right:hover .phone-shell{transform:rotate(-2deg)}
+.phone-sb{height:32px;background:rgba(251,145,60,.12);display:flex;align-items:center;justify-content:center}
+.phone-pill{width:90px;height:12px;background:rgba(251,145,60,.24);border-radius:10px}
+.phone-screen{height:580px;overflow:hidden;position:relative;background:linear-gradient(180deg,#101022,#05040b)}
+.app-screen{position:absolute;inset:0;transition:all .35s cubic-bezier(.4,0,.2,1);opacity:0;transform:translateX(100%);overflow-y:auto}
+.app-screen.active{opacity:1;transform:translateX(0)}
+.app-screen.exit{opacity:0;transform:translateX(-100%)}
+.sdots{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.sdot{width:6px;height:6px;border-radius:50%;background:var(--s4);cursor:pointer;transition:all .2s}
+.sdot.active{background:var(--v2);width:18px;border-radius:6px}
+
+/* APP UI */
+.app-topbar{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--s3)}
+.app-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--t1)}
+.app-logo span{color:var(--v2)}
+.app-av{width:32px;height:32px;background:var(--v3);border:1px solid var(--v4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px}
+.dash-greet{padding:16px 18px 0}
+.dash-hi{font-size:12px;color:var(--t3)}
+.dash-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--t1);margin-top:2px}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px 18px}
+.qcard{background:var(--s2);border:1px solid var(--s4);border-radius:18px;padding:14px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.qcard:hover,.qcard:active{border-color:var(--v4);background:var(--v3);transform:scale(.98)}
+.qcard-icon{font-size:22px;margin-bottom:8px}
+.qcard-title{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t1)}
+.qcard-sub{font-size:10px;color:var(--t3);margin-top:2px;line-height:1.4}
+.streak-card{margin:0 18px 12px;background:#07121f;border:1px solid var(--cr2);border-radius:18px;padding:12px 15px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.flame-ico{font-size:32px;animation:flame 1s ease-in-out infinite}
+@keyframes flame{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.1) rotate(3deg)}}
+.streak-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--cr2)}
+.streak-sub{font-size:10px;color:var(--t3)}
+.streak-days{display:flex;gap:4px;margin-top:6px}
+.sday{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600}
+.sd-done{background:#0D1A2C;color:var(--tl);border:1px solid rgba(251,145,60,.35)}
+.sd-today{background:#07121f;color:var(--cr2);border:1.5px solid var(--cr2)}
+.sd-next{background:var(--s3);color:var(--t4)}
+.groups-section{padding:0 18px 80px}
+.sec-label{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.group-row{display:flex;align-items:center;gap:10px;padding:11px 12px;background:var(--s2);border:1px solid var(--s4);border-radius:14px;margin-bottom:8px;cursor:pointer;transition:all .18s}
+.group-row:hover{border-color:var(--v4)}
+.group-ico{width:36px;height:36px;background:var(--v3);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.group-name{font-size:13px;font-weight:500;color:var(--t1)}
+.group-meta{font-size:10px;color:#c7d4ff;margin-top:1px}
+.group-badge{margin-left:auto;background:rgba(14,164,114,.1);color:var(--tl);border:1px solid rgba(14,164,114,.2);border-radius:50px;padding:3px 9px;font-size:10px;font-weight:600;flex-shrink:0}
+.scan-topbar{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(251,145,60,.18)}
+.back-btn{width:32px;height:32px;background:rgba(251,145,60,.08);border:1px solid rgba(251,145,60,.16);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;flex-shrink:0;transition:all .15s}
+.back-btn:hover{background:rgba(251,145,60,.14)}
+.scan-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;flex:1}
+.cam-view{margin:16px 18px;background:var(--s2);border:1px solid var(--s4);border-radius:20px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer}
+.corner{position:absolute;width:20px;height:20px;border-color:var(--tl);border-style:solid}
+.tl{top:12px;left:12px;border-width:2px 0 0 2px;border-radius:4px 0 0 0}
+.tr{top:12px;right:12px;border-width:2px 2px 0 0;border-radius:0 4px 0 0}
+.bl{bottom:12px;left:12px;border-width:0 0 2px 2px;border-radius:0 0 0 4px}
+.br{bottom:12px;right:12px;border-width:0 2px 2px 0;border-radius:0 0 4px 0}
+.scan-line{position:absolute;left:12px;right:12px;height:2px;background:linear-gradient(90deg,transparent,var(--v2),transparent);animation:scanmove 2s ease-in-out infinite;box-shadow:0 0 8px var(--vg)}
+@keyframes scanmove{0%{top:12px}100%{top:calc(100% - 12px)}}
+.cam-ph{text-align:center;z-index:1}
+.cam-ph p{font-size:12px;color:var(--t3);margin-top:8px}
+.scan-result{margin:0 18px;background:var(--s2);border:1px solid var(--v4);border-radius:20px;padding:14px;display:none}
+.scan-result.show{display:block;animation:fadeUp .3s ease both}
+.res-badge{display:flex;align-items:center;gap:6px;margin-bottom:10px}
+.ai-pip{width:6px;height:6px;background:var(--v);border-radius:50%;animation:blink 1.2s ease-in-out infinite}
+.res-lbl{font-size:10px;font-weight:600;color:var(--v2);text-transform:uppercase;letter-spacing:.6px}
+.res-q{font-size:12px;font-weight:500;color:var(--t1);margin-bottom:8px;line-height:1.5}
+.res-formula{font-family:Georgia,serif;font-size:13px;color:var(--am);background:rgba(251,145,60,.1);border-radius:8px;padding:6px 10px;text-align:center;margin-bottom:10px;font-style:italic}
+.quiz-opts{display:flex;flex-direction:column;gap:6px}
+.qopt{border-radius:10px;padding:8px 11px;font-size:11px;cursor:pointer;transition:all .18s;border:1px solid var(--s4);background:var(--s3);color:var(--t2);display:flex;align-items:center;gap:8px}
+.qopt:hover{border-color:var(--v);background:var(--v3);color:var(--t1)}
+.qopt.correct{border-color:var(--su);background:#052E1E;color:#6EE7B7}
+.qopt.wrong{border-color:var(--er);background:#100d1b;color:#93c5fd}
+.qopt.reveal{border-color:var(--su);background:#052E1E;color:#6EE7B7}
+.qopt.dim{opacity:.4;pointer-events:none}
+.opt-ltr{width:20px;height:20px;border-radius:6px;background:var(--s4);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0;color:var(--t3);transition:all .18s}
+.qopt.correct .opt-ltr{background:var(--su);color:#fff}
+.qopt.wrong .opt-ltr{background:var(--er);color:#fff}
+.qopt.reveal .opt-ltr{background:var(--su);color:#fff}
+.scan-btn{margin:14px 18px 0;background:var(--tl);color:#0b1120;border:none;border-radius:12px;padding:13px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:calc(100% - 36px);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(251,145,60,.18);transition:all .18s}
+.scan-btn:hover{background:rgba(251,145,60,.9);transform:translateY(-1px)}
+.chat-topbar{padding:12px 18px 8px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--s3);flex-shrink:0}
+.chat-room-av{width:34px;height:34px;border-radius:10px;background:var(--v3);display:flex;align-items:center;justify-content:center;font-size:15px;border:1px solid var(--v4);flex-shrink:0}
+.chat-room-name{font-size:13px;font-weight:600;color:var(--t1)}
+.chat-room-meta{font-size:10px;color:var(--t3);display:flex;align-items:center;gap:4px;margin-top:1px}
+.live-pip{width:5px;height:5px;border-radius:50%;background:var(--tl);animation:blink 1.4s ease-in-out infinite}
+.ai-tag{margin-left:auto;background:var(--v3);border:1px solid var(--v4);border-radius:50px;padding:4px 10px;font-size:9px;color:var(--v2);font-weight:600;flex-shrink:0;display:flex;align-items:center;gap:4px}
+.ai-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--v);animation:blink 1.2s ease-in-out infinite}
+.chat-feed{flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:360px;max-height:420px}
+.sys-lbl{text-align:center;font-size:9px;color:var(--t4);padding:2px 0}
+.bubble-row{display:flex;gap:8px;align-items:flex-end}
+.bubble-row.mine{flex-direction:row-reverse}
+.bav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;flex-shrink:0}
+.bubble{max-width:210px;padding:9px 12px;border-radius:16px;font-size:11px;line-height:1.55;color:var(--t2)}
+.bubble.theirs{background:var(--s3);border-radius:16px 16px 16px 4px}
+.bubble.mine{background:var(--v3);color:var(--v2);border-radius:16px 16px 4px 16px;border:1px solid var(--v4)}
+.btime{font-size:8px;color:var(--t4);margin-top:2px}
+.ai-widget{background:var(--s2);border:1px solid var(--v4);border-radius:16px;padding:12px;max-width:240px;margin-top:4px}
+.aw-header{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.aw-badge{display:flex;align-items:center;gap:4px;background:var(--v3);border:1px solid var(--v4);border-radius:20px;padding:3px 8px}
+.aw-dot{width:5px;height:5px;border-radius:50%;background:var(--v);animation:blink 1.2s ease-in-out infinite}
+.aw-lbl{font-size:9px;font-weight:600;color:var(--v2)}
+.aw-q{font-size:11px;font-weight:500;color:var(--t1);line-height:1.5;margin-bottom:8px}
+.aw-opts{display:flex;flex-direction:column;gap:5px}
+.awopt{border-radius:8px;padding:7px 10px;font-size:10px;cursor:pointer;transition:all .15s;border:1px solid var(--s4);background:var(--s3);color:var(--t2);display:flex;align-items:center;gap:7px}
+.awopt:hover{border-color:var(--v);background:var(--v3);color:var(--t1)}
+.awopt.correct{border-color:var(--su);background:#052E1E;color:#6EE7B7}
+.awopt.wrong{border-color:var(--er);background:#100d1b;color:#93c5fd}
+.awopt.reveal{border-color:var(--su);background:#052E1E;color:#6EE7B7}
+.awopt.dim{opacity:.4;pointer-events:none}
+.aw-ltr{width:18px;height:18px;border-radius:5px;background:var(--s4);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:600;flex-shrink:0;color:var(--t3);transition:all .15s}
+.awopt.correct .aw-ltr,.awopt.reveal .aw-ltr{background:var(--su);color:#fff}
+.awopt.wrong .aw-ltr{background:var(--er);color:#fff}
+.chat-input-bar{padding:8px 12px 12px;border-top:1px solid var(--s3);display:flex;align-items:center;gap:8px;flex-shrink:0}
+.chat-inp{flex:1;background:var(--s3);border:1px solid var(--s4);border-radius:20px;padding:8px 14px;font-size:11px;color:var(--t1);outline:none;font-family:inherit;transition:border-color .2s}
+.chat-inp:focus{border-color:var(--v4)}
+.chat-inp::placeholder{color:var(--t4)}
+.send-btn{width:34px;height:34px;border-radius:50%;background:var(--v);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;flex-shrink:0;font-size:14px;transition:transform .15s}
+.send-btn:active{transform:scale(.9)}
+.cam-fab-chat{width:34px;height:34px;border-radius:50%;background:var(--s3);border:1px solid var(--s4);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:15px;transition:all .15s}
+.cam-fab-chat:hover{background:var(--v3);border-color:var(--v4)}
+.dash-hero-pad{padding:14px 18px 0}
+.ring-card{margin:12px 18px;background:var(--s2);border:1px solid var(--s4);border-radius:20px;padding:16px;display:flex;align-items:center;gap:14px}
+.ring-wrap{position:relative;width:88px;height:88px;flex-shrink:0}
+.ring-wrap svg{width:88px;height:88px}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--t1);line-height:1}
+.ring-lbl{font-size:8px;color:var(--t3);margin-top:2px}
+.ring-legend{flex:1}
+.ring-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:3px}
+.ring-sub{font-size:10px;color:var(--t3);line-height:1.5;margin-bottom:8px}
+.ring-next{display:flex;align-items:center;gap:6px;background:var(--v3);border:1px solid var(--v4);border-radius:8px;padding:5px 8px}
+.ring-next-lbl{font-size:9px;color:var(--v2);flex:1}
+.ring-next-pts{font-size:10px;font-weight:600;color:var(--v2)}
+.stats-2col{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px;margin-bottom:12px}
+.stat-card{background:var(--s2);border:1px solid var(--s4);border-radius:16px;padding:12px;cursor:pointer;transition:transform .12s}
+.stat-card:active{transform:scale(.97)}
+.sc-icon-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.sc-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.sc-trend{font-size:9px;font-weight:600}
+.sc-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;line-height:1;margin-bottom:2px}
+.sc-lbl{font-size:9px;color:var(--t3)}
+.sc-bar{height:3px;background:var(--s4);border-radius:2px;margin-top:7px;overflow:hidden}
+.sc-bar-fill{height:100%;border-radius:2px}
+.streak-card2{margin:0 18px 12px;background:#07121f;border:1px solid var(--cr2);border-radius:16px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+.bonus-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--am)}
+.bonus-lbl{font-size:9px;color:var(--t3)}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;background:var(--s2);border-top:1px solid var(--s4);display:flex;padding:10px 0 14px;z-index:20}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.bnav-icon{font-size:18px;transition:transform .15s}
+.bnav-label{font-size:9px;color:var(--t4);font-weight:500}
+.bnav-item.active .bnav-label{color:var(--v2)}
+.bnav-item.active .bnav-icon{transform:scale(1.1)}
+
+/* SECTIONS */
+.section{padding:100px 48px;max-width:1100px;margin:0 auto;scroll-margin-top:110px}
+.section-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(251,145,60,.08);border:1px solid rgba(251,145,60,.18);border-radius:50px;padding:6px 14px;font-size:11px;color:var(--tl);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+.section-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:14px}
+.section-title span{background:linear-gradient(135deg,var(--v),var(--v2),var(--tl));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-sub{font-size:17px;color:#dde4ff;max-width:500px;line-height:1.7;font-weight:400;margin-bottom:56px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.feat-card{background:var(--s1);border:1px solid var(--border);border-radius:22px;padding:26px 22px;transition:all .3s;position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(251,145,60,.08),transparent 60%);opacity:0;transition:opacity .3s}
+.feat-card:hover{border-color:rgba(251,145,60,.2);transform:translateY(-4px)}
+.feat-card:hover::before{opacity:1}
+.feat-card.highlight{background:rgba(251,145,60,.08);border-color:rgba(251,145,60,.22);grid-column:span 2}
+.feat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.feat-icon.purple{background:rgba(251,145,60,.12)}
+.feat-icon.green{background:rgba(251,145,60,.12)}
+.feat-icon.amber{background:rgba(251,145,60,.15)}
+.feat-icon.red{background:rgba(220,38,38,.15)}
+.feat-card h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:8px;color:var(--t1)}
+.feat-card p{font-size:13px;color:#dbe7ff;line-height:1.7;font-weight:400}
+.feat-tag{display:inline-block;background:rgba(251,145,60,.12);color:var(--t1);border-radius:50px;padding:4px 12px;font-size:11px;font-weight:600;margin-top:12px}
+.steps-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.steps-wrap::before{content:'';position:absolute;top:26px;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--v4),var(--border),transparent)}
+.step{text-align:center;padding:0 20px}
+.step-num{width:52px;height:52px;background:var(--s2);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--v2);margin:0 auto 18px;position:relative;z-index:1;transition:all .3s}
+.step:hover .step-num{background:var(--v3);border-color:var(--v);box-shadow:0 0 20px var(--vg)}
+.step h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px}
+.step p{font-size:13px;color:#d5defb;line-height:1.6;font-weight:400}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:24px;max-width:1120px;margin:0 auto;align-items:start}
+.price-card{background:var(--s1);border:1px solid var(--border);border-radius:22px;padding:28px 24px;transition:all .3s}
+.price-card.popular{background:rgba(251,145,60,.12);border-color:rgba(251,145,60,.3);position:relative;transform:scale(1.02);box-shadow:0 20px 60px rgba(251,145,60,.14);backdrop-filter:blur(12px);}
+.price-card.premium{background:linear-gradient(180deg, rgba(139,92,246,.16), rgba(5,8,25,.95));border-color:rgba(139,92,246,.35);position:relative;transform:scale(1.01);box-shadow:0 20px 70px rgba(139,92,246,.16);backdrop-filter:blur(12px);}
+.price-card.popular::before, .price-card.premium::before{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;background:radial-gradient(circle at top left, rgba(255,255,255,.08), transparent 45%);}
+.popular-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--tl);color:#0b1120;font-size:11px;font-weight:700;padding:4px 14px;border-radius:50px;font-family:'Syne',sans-serif;white-space:nowrap}
+.price-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px}
+.price-amount{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--t1);line-height:1;margin-bottom:4px}
+.price-amount small{font-size:16px;color:var(--t3);font-weight:400}
+.price-period{font-size:12px;color:var(--t3);margin-bottom:22px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.price-features li{display:flex;align-items:center;gap:9px;font-size:13px;color:#dde4ff}
+.price-features li::before{content:'✓';width:17px;height:17px;background:rgba(251,145,60,.12);color:var(--tl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0}
+.cta-section{margin:0 48px 100px;background:rgba(14,21,50,.9);border:1px solid rgba(251,145,60,.18);border-radius:32px;padding:72px 48px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:400px;height:400px;background:radial-gradient(circle,rgba(251,145,60,.14),transparent 70%);pointer-events:none}
+.cta-section h2{font-family:'Syne',sans-serif;font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:14px}
+.cta-section p{font-size:16px;color:#dbe9ff;max-width:420px;margin:0 auto 28px;line-height:1.7;font-weight:400}
+.email-form{display:flex;gap:10px;max-width:400px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.email-input{flex:1;min-width:180px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:50px;padding:14px 20px;color:var(--t1);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.email-input::placeholder{color:var(--t3)}
+.email-input:focus{border-color:var(--tl)}
+footer{border-top:1px solid var(--border);padding:36px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;text-decoration:none;color:var(--t1)}
+.footer-logo span{color:var(--v2)}
+.footer-links{display:flex;gap:24px;list-style:none}
+.footer-links a{color:var(--t3);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:var(--t1)}
+.footer-copy{font-size:12px;color:#c7d4ff}
+.reveal{opacity:0;transform:translateY(28px);transition:all .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s2);border:1px solid var(--border);border-radius:50px;padding:12px 22px;font-size:13px;color:var(--t2);opacity:0;transition:all .3s;z-index:500;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:900px){.hero{flex-direction:column;text-align:center;padding:100px 24px 60px;gap:48px}.hero-actions{justify-content:center}.hero-stats{justify-content:center}.hero-right{order:-1}.phone-shell{width:260px}.phone-screen{height:500px}nav{padding:16px 20px}.nav-toggle{display:flex}.nav-links{display:none;position:absolute;top:100%;right:20px;background:rgba(9,5,18,.98);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px);border-radius:20px;flex-direction:column;gap:0;padding:10px 0;width:220px;box-shadow:0 14px 40px rgba(0,0,0,.35)}.nav-links.open{display:flex}.nav-links li{width:100%}.nav-links a{display:block;padding:12px 18px;font-size:15px}.nav-links .nav-cta{margin:0 14px}.section{padding:60px 24px}.feat-card.highlight{grid-column:span 1}.steps-wrap{grid-template-columns:1fr;gap:32px}.steps-wrap::before{display:none}.cta-section{margin:0 20px 60px;padding:48px 24px}footer{padding:28px 20px;flex-direction:column;text-align:center}}
+
+@media(max-width:640px){body{background-attachment:scroll}nav{padding:14px 18px}.hero{padding:90px 18px 50px;gap:28px}.hero-left,.hero-right{width:100%}.hero-right{order:2}.hero-sub{max-width:100%;font-size:15px}.hero-actions{gap:10px}.btn-primary,.btn-ghost{width:100%;justify-content:center}.hero-stats{flex-direction:column;gap:14px}.phone-shell{width:240px}.phone-screen{height:460px}.phone-ring{width:340px;height:340px}.phone-ring-inner{width:260px;height:260px}.screen-nav{gap:8px}.snav-btn{padding:6px 10px;font-size:11px}.screen-chip{min-width:auto;padding:5px 12px;font-size:10px}.section{padding:50px 18px}.pricing-grid{grid-template-columns:1fr;gap:18px}.features-grid{grid-template-columns:1fr}.stats-2col{grid-template-columns:1fr}.price-card{max-width:none}.email-form{flex-direction:column;width:100%}.email-input{width:100%}.footer-links{flex-direction:column;gap:12px}.bottom-nav{padding:10px}.chat-feed{max-height:320px;min-height:260px}.scan-btn{width:calc(100% - 36px)}}
+
+@media(max-width:480px){nav{padding:12px 14px}.hero{padding:80px 14px 42px}.hero h1{font-size:clamp(34px,9vw,46px)}.hero-sub{font-size:14px}.hero-actions{gap:8px}.phone-shell{width:220px}.phone-screen{height:420px}.phone-ring{width:300px;height:300px}.phone-ring-inner{width:220px;height:220px}.hero-badge,.live-pill{font-size:12px;padding:8px 14px}.section{padding:40px 14px}.section-title{font-size:clamp(24px,10vw,36px)}.price-amount{font-size:32px}.footer{padding:24px 14px}.footer-links a{font-size:14px}.scan-btn{padding:12px}.chat-input-bar{padding:8px 10px}.chat-inp{font-size:13px;padding:10px 12px}.bottom-nav{padding:8px 0}.nav-links{right:10px;width:calc(100% - 20px)}}
+</style>
+<script>
+  // Server API URL - Netlify function path (local netlify dev or deployed site)
+  // When deployed on Netlify, this will resolve automatically to the function URL.
+  window.WAITLIST_API = '/.netlify/functions/addToWaitlist';
+
+  // Wrapper that calls the HTTP Cloud Function
+  window.addToWaitlist = async function(email) {
+    const res = await fetch(window.WAITLIST_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Failed to add to waitlist');
+    }
+    return await res.json();
+  };
+</script>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="bg-particles"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+<div class="toast" id="toast"></div>
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="Edulinklogo.png" alt="EduLink logo" class="site-logo">
+    <span class="logo-text">Edu<span>Link</span></span>
+  </a>
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" onclick="toggleNav()">☰</button>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#early-access" class="nav-cta">Get Early Access</a></li>
+    <li><a href="#contact-support" class="nav-cta">Contact Support</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="orb1"></div><div class="orb2"></div>
+  <div class="hero-floats">
+    <div class="float-icon icon-books">📚</div>
+    <div class="float-icon icon-brain">🧠</div>
+    <div class="float-icon icon-pencil">✏️</div>
+    <div class="float-icon icon-chat">💬</div>
+    <div class="float-icon icon-star">⭐</div>
+    <div class="float-icon icon-rocket">🚀</div>
+    <div class="float-icon icon-bulb">💡</div>
+    <div class="float-icon icon-target">🎯</div>   
+     <div class="float-icon icon-robot">🤖</div>
+    <div class="float-icon icon-circuit">⚡</div>  </div>
+  <span class="hero-dot"></span><span class="hero-dot"></span><span class="hero-dot"></span><span class="hero-dot"></span>
+  <div class="hero-left">
+    <div class="hero-badge"><div class="badge-dot"></div>Powered by Gemini</div>
+    <div class="live-pill"><span class="live-dot"></span>Live interactive demo</div>
+    <h1>Your <span class="grad">AI-driven Learning Community </span><br>That Never Sleeps</h1>
+    <p class="hero-sub">Students join a study room → upload a question → Gemini explains it → creates a quiz → progress tracked automatically.</p>
+    <div class="hero-actions">
+      <a href="#early-access" class="btn-primary">Get Early Access →</a>
+      <a href="#try" class="btn-ghost">▶ Try it live</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">AI-powered question scanning</div></div>
+      <div class="hstat"><div class="hstat-num">Collaborative study rooms</div></div>
+      <div class="hstat"><div class="hstat-num">Personalized revision</div></div>
+    </div>
+    <p class="hero-next">What’s next: smarter exam insights, faster group matching, and AI-driven revision plans.</p>
+  </div>
+
+  <div class="hero-right" id="try">
+    <div class="phone-demo-wrap">
+      <div class="phone-ring"></div>
+      <div class="phone-ring-inner"></div>
+      <div class="phone-ring-spot"></div>
+      <div class="phone-ring-spot alt"></div>
+      <div class="phone-glow"></div>
+      <div class="screen-nav">
+        <div class="snav-btn" onclick="prevScreen()">← Prev</div>
+        <div class="screen-chip" id="screen-chip">🏠 Home</div>
+        <div class="snav-btn" onclick="nextScreen()">Next →</div>
+      </div>
+      <div class="phone-shell">
+        <div class="phone-sb"><div class="phone-pill"></div></div>
+        <div class="phone-screen">
+
+          <!-- SCREEN 0: HOME -->
+          <div class="app-screen active" id="scr-0">
+            <div class="app-topbar"><div class="app-logo">Edu<span>Link</span></div><div class="app-av">👤</div></div>
+            <div class="dash-greet"><div class="dash-hi">Good evening 👋</div><div class="dash-name">Clinton Josh</div></div>
+            <div class="quick-grid">
+              <div class="qcard" onclick="goToScreen(1)"><div class="qcard-icon">📸</div><div class="qcard-title">Scan Question</div><div class="qcard-sub">Point camera at past questions</div></div>
+              <div class="qcard" onclick="goToScreen(2)"><div class="qcard-icon">🤖</div><div class="qcard-title">AI Study</div><div class="qcard-sub">Chat with your AI tutor</div></div>
+              <div class="qcard" onclick="goToScreen(3)"><div class="qcard-icon">🔥</div><div class="qcard-title">My Streak</div><div class="qcard-sub">14 day streak going!</div></div>
+              <div class="qcard" onclick="showToast('🔀 Partner matching coming soon!')"><div class="qcard-icon">🔀</div><div class="qcard-title">Find Partner</div><div class="qcard-sub">Match with a study buddy</div></div>
+            </div>
+            <div class="streak-card" onclick="goToScreen(3)">
+              <div class="flame-ico">🔥</div>
+              <div style="flex:1"><div class="streak-num">14 Day Streak</div><div class="streak-sub">Keep it going!</div>
+                <div class="streak-days"><div class="sday sd-done">M</div><div class="sday sd-done">T</div><div class="sday sd-done">W</div><div class="sday sd-today">T</div><div class="sday sd-next">F</div><div class="sday sd-next">S</div><div class="sday sd-next">S</div></div>
+              </div>
+            </div>
+            <div class="groups-section">
+              <div class="sec-label">Your Study Groups</div>
+              <div class="group-row" onclick="goToScreen(2)"><div class="group-ico">🧬</div><div><div class="group-name">Biology 101</div><div class="group-meta">8 members · AI active</div></div><div class="group-badge">Live</div></div>
+              <div class="group-row" onclick="goToScreen(2)"><div class="group-ico">📐</div><div><div class="group-name">MTH 101 Study</div><div class="group-meta">5 members · AI active</div></div><div class="group-badge">3 new</div></div>
+              <div class="group-row" onclick="goToScreen(2)"><div class="group-ico">💻</div><div><div class="group-name">CSC 102 Crew</div><div class="group-meta">12 members · AI active</div></div><div class="group-badge">Active</div></div>
+            </div>
+            <div class="bottom-nav">
+              <div class="bnav-item active"><div class="bnav-icon">🏠</div><div class="bnav-label">Home</div></div>
+              <div class="bnav-item" onclick="goToScreen(1)"><div class="bnav-icon">📸</div><div class="bnav-label">Scan</div></div>
+              <div class="bnav-item" onclick="goToScreen(2)"><div class="bnav-icon">💬</div><div class="bnav-label">Study</div></div>
+              <div class="bnav-item" onclick="goToScreen(3)"><div class="bnav-icon">🔥</div><div class="bnav-label">Streak</div></div>
+            </div>
+          </div>
+
+          <!-- SCREEN 1: SCANNER -->
+          <div class="app-screen" id="scr-1">
+            <div class="scan-topbar"><div class="back-btn" onclick="goToScreen(0)">←</div><div class="scan-title">📸 Scan Past Question</div></div>
+              <div class="cam-view" onclick="triggerScan()">
+              <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+              <div class="scan-line"></div>
+              <div class="cam-ph" id="cam-ph" style="display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:left;padding:18px;color:var(--t2)">
+                <div style="font-size:12px;color:var(--t3);font-weight:700">WAEC Mathematics 2024</div>
+                <div style="margin-top:8px;font-size:13px;font-weight:600">Question 17:</div>
+                <div style="margin-top:8px;font-size:14px;line-height:1.4;color:var(--t1)">If sin θ = 3/5, evaluate (sin θ + cos θ) / tan θ</div>
+              </div>
+            </div>
+            <div class="scan-result" id="scan-result">
+              <div class="res-badge"><div class="ai-pip"></div><div class="res-lbl">Gemini · Reading</div></div>
+              <div class="res-q">WAEC Mathematics 2024 · Question 17: If sin θ = 3/5, evaluate (sin θ + cos θ) / tan θ</div>
+              <div class="res-formula">sin θ = 3/5 → cos θ = 4/5 → tan θ = 3/4. (sin+cos)=7/5 → (7/5)/(3/4)=28/15</div>
+              <div class="quiz-opts" id="scan-opts">
+                <div class="qopt" onclick="answerScan(this,'A','A')"><div class="opt-ltr">A</div>28/15</div>
+                <div class="qopt" onclick="answerScan(this,'B','A')"><div class="opt-ltr">B</div>7/4</div>
+                <div class="qopt" onclick="answerScan(this,'C','A')"><div class="opt-ltr">C</div>3/5</div>
+                <div class="qopt" onclick="answerScan(this,'D','A')"><div class="opt-ltr">D</div>5/3</div>
+              </div>
+            </div>
+            <button class="scan-btn" onclick="triggerScan()">📸 Scan New Question</button>
+            <div class="bottom-nav">
+              <div class="bnav-item" onclick="goToScreen(0)"><div class="bnav-icon">🏠</div><div class="bnav-label">Home</div></div>
+              <div class="bnav-item active"><div class="bnav-icon">📸</div><div class="bnav-label">Scan</div></div>
+              <div class="bnav-item" onclick="goToScreen(2)"><div class="bnav-icon">💬</div><div class="bnav-label">Study</div></div>
+              <div class="bnav-item" onclick="goToScreen(3)"><div class="bnav-icon">🔥</div><div class="bnav-label">Streak</div></div>
+            </div>
+          </div>
+
+          <!-- SCREEN 2: CHAT -->
+          <div class="app-screen" id="scr-2" style="display:flex;flex-direction:column">
+            <div class="chat-topbar">
+              <div class="back-btn" onclick="goToScreen(0)">←</div>
+              <div class="chat-room-av">🧬</div>
+              <div style="flex:1"><div class="chat-room-name">Biology 101</div><div class="chat-room-meta"><div class="live-pip"></div>8 members · AI active</div></div>
+              <div class="ai-tag"><div class="ai-tag-dot"></div>Gemini</div>
+            </div>
+            <div class="chat-feed" id="chat-feed">
+              <div class="sys-lbl">Today · 9:41 PM</div>
+              <div class="bubble-row">
+                <div class="bav" style="background:#1E1240;color:#9D6FEC">🤖</div>
+                <div>
+                  <div class="ai-widget">
+                    <div class="aw-header"><div class="aw-badge"><div class="aw-dot"></div><div class="aw-lbl">Gemini · Group Quiz</div></div></div>
+                    <div class="aw-q">
+                      Three students selected different answers.
+                      <div style="margin-top:8px"><strong>Aisha:</strong> Option A</div>
+                      <div><strong>David:</strong> Option C</div>
+                      <div><strong>Tolu:</strong> Option D</div>
+                      <div style="margin-top:8px;font-style:italic;color:var(--t2)">Gemini Analysis:<br>Aisha correctly identified the formula.<br>David forgot to convert degrees to radians.<br>Tolu used the wrong trigonometric identity.</div>
+                      <div style="margin-top:10px;font-weight:600">Which explanation makes the most sense?</div>
+                    </div>
+                    <div class="aw-opts" id="chat-quiz">
+                      <div class="awopt" onclick="answerChat(this,'A','A')"><div class="aw-ltr">A</div>Aisha — correct explanation</div>
+                      <div class="awopt" onclick="answerChat(this,'B','A')"><div class="aw-ltr">B</div>David — issue with radians</div>
+                      <div class="awopt" onclick="answerChat(this,'C','A')"><div class="aw-ltr">C</div>Tolu — wrong identity</div>
+                    </div>
+                  </div>
+                  <div class="btime">9:41 PM</div>
+                </div>
+              </div>
+              <div class="bubble-row mine">
+                <div class="bav" style="background:#1E1240;color:#9D6FEC">S</div>
+                <div><div class="bubble mine">Can you explain osmosis simply?</div><div class="btime" style="text-align:right">9:43 PM</div></div>
+              </div>
+              <div class="bubble-row">
+                <div class="bav" style="background:#1E1240;color:#9D6FEC">🤖</div>
+                <div><div class="bubble theirs">Osmosis is water moving from a less concentrated solution to a more concentrated one through a semi-permeable membrane. Think of water always trying to balance things out! 💧</div><div class="btime">9:43 PM</div></div>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <div class="cam-fab-chat" onclick="showToast('📸 Camera scan ready!')">📸</div>
+              <input class="chat-inp" placeholder="Ask anything..." id="chat-inp" onkeydown="if(event.key==='Enter')sendMsg()">
+              <div class="send-btn" onclick="sendMsg()">➤</div>
+            </div>
+          </div>
+
+          <!-- SCREEN 3: STREAK -->
+          <div class="app-screen" id="scr-3" style="padding-bottom:80px">
+            <div class="dash-hero-pad">
+              <div class="app-topbar" style="padding:0 0 10px"><div><div style="font-size:11px;color:var(--t3)">Your progress</div><div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--t1)">Streak Dashboard</div></div><div class="back-btn" onclick="goToScreen(0)">←</div></div>
+            </div>
+            <div class="ring-card">
+              <div class="ring-wrap">
+                <svg viewBox="0 0 88 88"><circle cx="44" cy="44" r="36" fill="none" stroke="#22222B" stroke-width="6"/><circle cx="44" cy="44" r="36" fill="none" stroke="#7C3AED" stroke-width="6" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="56" transform="rotate(-90 44 44)"/><circle cx="44" cy="44" r="28" fill="none" stroke="#1A1A21" stroke-width="5"/><circle cx="44" cy="44" r="28" fill="none" stroke="#0EA472" stroke-width="5" stroke-linecap="round" stroke-dasharray="176" stroke-dashoffset="44" transform="rotate(-90 44 44)"/></svg>
+                <div class="ring-center"><div class="ring-num">75%</div><div class="ring-lbl">Weekly goal</div></div>
+              </div>
+              <div class="ring-legend"><div class="ring-title">Almost there! 🎯</div><div class="ring-sub">30 more minutes to hit your weekly goal</div><div class="ring-next"><div class="ring-next-lbl">Next milestone</div><div class="ring-next-pts">+50 XP</div></div></div>
+            </div>
+            <div class="stats-2col">
+              <div class="stat-card"><div class="sc-icon-row"><div class="sc-icon" style="background:rgba(251,145,60,.12)">📚</div><div class="sc-trend" style="color:var(--tl)">+12%</div></div><div class="sc-num" style="color:var(--t1)">247</div><div class="sc-lbl">Questions solved</div><div class="sc-bar"><div class="sc-bar-fill" style="width:72%;background:var(--v)"></div></div></div>
+              <div class="stat-card"><div class="sc-icon-row"><div class="sc-icon" style="background:rgba(14,164,114,.12)">⏱️</div><div class="sc-trend" style="color:var(--tl)">+8%</div></div><div class="sc-num" style="color:var(--t1)">18h</div><div class="sc-lbl">Study time this week</div><div class="sc-bar"><div class="sc-bar-fill" style="width:60%;background:var(--tl)"></div></div></div>
+              <div class="stat-card"><div class="sc-icon-row"><div class="sc-icon" style="background:rgba(232,150,15,.12)">🎯</div><div class="sc-trend" style="color:var(--am)">85%</div></div><div class="sc-num" style="color:var(--t1)">85%</div><div class="sc-lbl">Quiz accuracy</div><div class="sc-bar"><div class="sc-bar-fill" style="width:85%;background:var(--am)"></div></div></div>
+              <div class="stat-card"><div class="sc-icon-row"><div class="sc-icon" style="background:rgba(194,65,12,.12)">🔥</div><div class="sc-trend" style="color:var(--cr2)">Best!</div></div><div class="sc-num" style="color:var(--cr2)">14</div><div class="sc-lbl">Day streak</div><div class="sc-bar"><div class="sc-bar-fill" style="width:56%;background:var(--cr2)"></div></div></div>
+            </div>
+            <div class="streak-card2">
+              <div class="flame-ico">🔥</div>
+              <div style="flex:1"><div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--cr2)">14 Day Streak</div><div style="font-size:10px;color:var(--t3)">You're on fire! Don't break it 💪</div>
+                <div class="streak-days" style="margin-top:6px"><div class="sday sd-done">M</div><div class="sday sd-done">T</div><div class="sday sd-done">W</div><div class="sday sd-today">T</div><div class="sday sd-next">F</div><div class="sday sd-next">S</div><div class="sday sd-next">S</div></div>
+              </div>
+              <div style="text-align:center"><div class="bonus-num">+25 XP</div><div class="bonus-lbl">Daily bonus</div></div>
+            </div>
+            <div class="bottom-nav">
+              <div class="bnav-item" onclick="goToScreen(0)"><div class="bnav-icon">🏠</div><div class="bnav-label">Home</div></div>
+              <div class="bnav-item" onclick="goToScreen(1)"><div class="bnav-icon">📸</div><div class="bnav-label">Scan</div></div>
+              <div class="bnav-item" onclick="goToScreen(2)"><div class="bnav-icon">💬</div><div class="bnav-label">Study</div></div>
+              <div class="bnav-item active"><div class="bnav-icon">🔥</div><div class="bnav-label">Streak</div></div>
+            </div>
+          </div>
+
+          <div class="sdots">
+            <div class="sdot active" onclick="goToScreen(0)"></div>
+            <div class="sdot" onclick="goToScreen(1)"></div>
+            <div class="sdot" onclick="goToScreen(2)"></div>
+            <div class="sdot" onclick="goToScreen(3)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY GROUPS -->
+<section class="section" id="study-groups">
+  <div class="reveal"><div class="section-badge">✦ Study Groups</div><h2 class="section-title">AI Study Groups<br><span>for African Students</span></h2><p class="section-sub">Join live rooms, upload past questions, and study together while Gemini explains and creates quizzes automatically.</p></div>
+  <div class="features-grid reveal">
+    <div class="feat-card highlight"><div class="feat-icon green">💬</div><h3>Live Study Rooms</h3><p>Create or join rooms, invite classmates, and let Gemini moderate practice quizzes in real time.</p><span class="feat-tag">Collaboration first</span></div>
+    <div class="feat-card"><div class="feat-icon purple">📸</div><h3>Question Scanner</h3><p>Scan WAEC/JAMB past questions; Gemini reads, explains, and adds them to group quizzes.</p></div>
+  </div>
+</section>
+
+<!-- WHY GEMINI -->
+<section class="section" id="why-gemini" style="padding-top:40px">
+  <div class="reveal"><div class="section-badge">✦ Why Gemini?</div><h2 class="section-title">Powered by Gemini<br><span>Real-time multimodal reasoning</span></h2><p class="section-sub">Multimodal question scanning · Real-time study group assistance · Personalized explanations · Context-aware revision plans</p></div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="reveal"><div class="section-badge">✦ Features</div><h2 class="section-title">Everything to<br><span>ace your exams</span></h2><p class="section-sub">Built for Nigerian university students. Every feature designed around how you actually study.</p></div>
+  <div class="features-grid reveal">
+    <div class="feat-card highlight"><div class="feat-icon purple">📸</div><h3>Camera Past Question Scanner</h3><p>Point your phone at any past question. Gemini reads it instantly, explains it step by step, and adds it to your personal quiz bank. No more typing questions manually.</p><span class="feat-tag">★ Most loved feature</span></div>
+    <div class="feat-card"><div class="feat-icon green">🤖</div><h3>AI Study Partner</h3><p>Your personal Gemini-powered tutor available 24/7. Ask anything about any subject and get clear, simple explanations instantly.</p></div>
+    <div class="feat-card"><div class="feat-icon purple">🎴</div><h3>Smart Flashcards</h3><p>AI generates personalized flashcards based on your weak areas. The more you study, the smarter it gets about what to quiz you on.</p></div>
+    <div class="feat-card"><div class="feat-icon amber">📄</div><h3>Lecture Summarizer</h3><p>Upload your lecture notes and get a clean, concise summary in seconds. Turn 50 pages into 5 key points before your exam.</p></div>
+    <div class="feat-card"><div class="feat-icon green">🔀</div><h3>Study Partner Matching</h3><p>Get matched with students studying the same subject right now. Study together with AI keeping you both on track.</p></div>
+    <div class="feat-card"><div class="feat-icon red">🔥</div><h3>Streak & Progress System</h3><p>Build study habits with daily streaks, progress rings, and milestone rewards. Turn studying from a chore into a challenge.</p></div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="section" id="why-choose-us">
+  <div class="reveal"><div class="section-badge">✦ Why EduLink?</div><h2 class="section-title">Built for exam success<br><span>where it matters most</span></h2><p class="section-sub">Every feature is designed around local exam prep, fast answers, and students working together.</p></div>
+  <div class="help-grid reveal">
+    <div class="help-card"><h3>Focused on Nigerian exams</h3><p>WAEC, JAMB and university past questions with exam-ready explanations tailored to your syllabus.</p></div>
+    <div class="help-card"><h3>Group learning with AI</h3><p>Study in live rooms, keep each other accountable, and let Gemini generate quizzes for the whole group.</p></div>
+    <div class="help-card"><h3>Fast question support</h3><p>From camera scan to answer summary in seconds — no more waiting for help after class.</p></div>
+    <div class="help-card"><h3>Built to boost confidence</h3><p>Track streaks, daily progress, and revision habits so students stay motivated and exam-ready.</p></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" style="padding-top:0">
+  <div class="reveal"><div class="section-badge">✦ How it works</div><h2 class="section-title">Up and studying<br>in <span>3 steps</span></h2><p class="section-sub">No long setup. No complicated onboarding. Just open and start.</p></div>
+  <div class="steps-wrap reveal">
+    <div class="step"><div class="step-num">01</div><h3>Create your account</h3><p>Sign up with your university and department. EduLink personalizes everything to your course.</p></div>
+    <div class="step"><div class="step-num">02</div><h3>Scan or ask a question</h3><p>Point your camera at any past question or type it in. Gemini handles the rest instantly.</p></div>
+    <div class="step"><div class="step-num">03</div><h3>Study, practice, repeat</h3><p>Build your quiz bank, track your progress, and watch your exam confidence grow daily.</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="padding-top:0;text-align:center">
+
+  <div class="reveal">
+    <div class="section-badge">✦ Pricing</div>
+    <h2 class="section-title">Simple, <span>student-friendly</span> pricing</h2>
+    <p class="section-sub" style="margin:0 auto 20px">
+      Start free. Upgrade when you're ready.
+    </p>
+    <p style="opacity:0.8; margin-bottom:56px">
+      Join the waitlist today and get early-adopter benefits when EduLink launches.
+    </p>
+  </div>
+
+  <!-- PRICING GRID (SIDE BY SIDE) -->
+
+  <div class="pricing-grid reveal">
+
+
+<!-- FREE -->
+<div class="price-card" style="max-width:340px;">
+  <div class="price-name">Free</div>
+  <div class="price-amount">₦0<small>/mo</small></div>
+  <div class="price-period">Forever free</div>
+
+  <ul class="price-features">
+    <li>10 camera scans per day</li>
+    <li>AI study partner (limited)</li>
+    <li>5 lecture summaries/month</li>
+    <li>Basic flashcards</li>
+    <li>Study partner matching</li>
+  </ul>
+
+  <a href="#early-access" class="btn-primary"
+     style="width:100%;justify-content:center;border-radius:12px">
+    Get Started Free
+  </a>
+</div>
+
+<!-- PRO (MOST IMPORTANT) -->
+<div class="price-card popular" style="max-width:340px;">
+  <div class="popular-badge">Most Popular</div>
+  <div class="price-name">Pro</div>
+  <div class="price-amount">₦500<small>/mo</small></div>
+  <div class="price-period">Less than ₦17/day</div>
+
+  <ul class="price-features">
+    <li>Unlimited camera scans</li>
+    <li>Full AI study partner</li>
+    <li>Unlimited lecture summaries</li>
+    <li>Smart personalized flashcards</li>
+    <li>Priority study matching</li>
+    <li>Progress analytics</li>
+    <li>Priority support</li>
+  </ul>
+
+  <a href="#early-access" class="btn-primary"
+     style="width:100%;justify-content:center;border-radius:12px">
+    Get Pro Access
+  </a>
+</div>
+
+<!-- PREMIUM -->
+<div class="price-card premium" style="max-width:340px;">
+  <div class="price-name">Premium</div>
+  <div class="price-amount">₦1,000<small>/mo</small></div>
+  <div class="price-period">For serious students</div>
+
+  <ul class="price-features">
+    <li>Everything in Pro</li>
+    <li>Advanced performance analytics</li>
+    <li>Personalized study plans</li>
+    <li>Group study rooms</li>
+    <li>Early access to new AI features</li>
+    <li>Premium academic resources</li>
+  </ul>
+
+  <a href="#early-access" class="btn-primary"
+     style="width:100%;justify-content:center;border-radius:12px">
+    Join Premium Waitlist
+  </a>
+</div>
+
+
+
+
+  <p style="margin-top:40px; opacity:0.75">
+    No credit card required for early access • Cancel anytime after launch
+  </p>
+
+</section>
+
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="reveal"><div class="section-badge">✦ FAQ</div><h2 class="section-title">How EduLink helps<br><span>you succeed</span></h2></div>
+  <div class="faq-grid reveal">
+    <div class="faq-card"><h3>How quickly can I get help?</h3><p>Scan a past question or ask directly and Gemini gives a step-by-step answer within seconds.</p></div>
+    <div class="faq-card"><h3>Can I study with others?</h3><p>Yes — live study rooms let classmates work together while AI creates quizzes for the group.</p></div>
+    <div class="faq-card"><h3>Is this good for exam practice?</h3><p>Absolutely — it is built for real exam formats and generates practice content based on your weak topics.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="early-access">
+  <h2>Be first to study smarter! 🐝</h2>
+  <p>Join the waitlist and get free Pro access for 3 months when we launch.</p>
+  <form class="email-form" id="waitlist-form">
+  <input id="email-input" type="email" name="email" class="email-input" placeholder="your@email.com" required>
+  <button type="submit" class="btn-primary">Join Waitlist →</button>
+</form>
+
+<div id="success-msg" style="display:none; text-align:center; padding:20px;">
+  <div style="font-size:40px; margin-bottom:12px">🎉</div>
+  <div style="font-family:'Syne',sans-serif; font-size:20px; font-weight:800; color:var(--t1); margin-bottom:8px">You're on the list!</div>
+  <div style="font-size:14px; color:var(--t2)">We'll notify you the moment EduLink launches. Get ready to study smarter! 🐝</div>
+</div>
+  <p style="font-size:13px;color:#dbeefd;margin-top:14px;line-height:1.6;max-width:640px;margin:0 auto">
+    <strong style="color:#fff">No credit card required today.</strong> Just early access — cancel anytime after launch with zero fees.
+  </p>
+  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px">
+    <span style="background:rgba(251,145,60,.12);color:#fff1e8;border:1px solid rgba(251,145,60,.25);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600">No CC needed</span>
+    <span style="background:rgba(251,145,60,.12);color:#fff1e8;border:1px solid rgba(251,145,60,.25);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600">Cancel at any time</span>
+    <span style="background:rgba(251,145,60,.12);color:#fff1e8;border:1px solid rgba(251,145,60,.25);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:600">No hidden fees</span>
+  </div>
+</div>
+
+<footer>
+  <a href="#" class="footer-logo">
+    <img src="Edulinklogo.png" alt="EduLink logo" class="site-logo">
+    <span class="logo-text">Edu<span>Link</span></span>
+  </a>
+  <ul class="footer-links"><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#early-access">Early Access</a></li></ul>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+
+    <a href="https://wa.me/2348144091758" target="_blank" rel="noreferrer" class="support-btn">WhatsApp Support</a>
+    <div id="contact-support" style="font-size:12px;color:#c7d4ff"><strong>For more information, message our support team on WhatsApp</strong><br>📱 +234 814 409 1758 | +234 932 269 794</div>
+    <div class="team-credit">Built by a student-first team in Nigeria focused on exam success.</div>
+  </div>
+</footer>
+<script src="scripts.js"></script>
+</body>
+</html>
