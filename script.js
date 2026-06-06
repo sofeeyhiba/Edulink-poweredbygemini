@@ -3,13 +3,11 @@ let currentScreen = 0;
 const totalScreens = 4;
 
 function goToScreen(screenIndex) {
-  // Hide all screens
   document.querySelectorAll('.app-screen').forEach(screen => {
     screen.classList.remove('active', 'exit');
     screen.classList.add('exit');
   });
   
-  // Show selected screen
   setTimeout(() => {
     const screen = document.getElementById(`scr-${screenIndex}`);
     if (screen) {
@@ -18,12 +16,10 @@ function goToScreen(screenIndex) {
     }
   }, 50);
   
-  // Update dots
   document.querySelectorAll('.sdot').forEach((dot, index) => {
     dot.classList.toggle('active', index === screenIndex);
   });
   
-  // Update navigation chip
   const chipTexts = ['🏠 Home', '📸 Scan', '💬 Study', '🔥 Streak'];
   const chip = document.getElementById('screen-chip');
   if (chip) chip.textContent = chipTexts[screenIndex];
@@ -59,7 +55,6 @@ function triggerScan() {
 }
 
 function answerScan(element, answer, correct) {
-  // Mark correct/wrong
   document.querySelectorAll('#scan-opts .qopt').forEach(opt => {
     opt.classList.remove('correct', 'wrong', 'dim');
   });
@@ -82,7 +77,6 @@ function answerScan(element, answer, correct) {
 
 // Chat functionality
 function answerChat(element, answer, correct) {
-  // Mark correct/wrong
   document.querySelectorAll('#chat-quiz .awopt').forEach(opt => {
     opt.classList.remove('correct', 'wrong', 'dim');
   });
@@ -108,7 +102,6 @@ function sendMsg() {
   const message = input?.value.trim();
   
   if (message) {
-    // Add user message to chat
     const feed = document.getElementById('chat-feed');
     if (feed) {
       const userMsg = document.createElement('div');
@@ -139,32 +132,7 @@ function showToast(message) {
   }
 }
 
-// Waitlist form
-function handleWaitlist() {
-  const emailInput = document.getElementById('email-input');
-  const email = emailInput?.value.trim();
-  
-  if (email && email.includes('@')) {
-    if (typeof window.addToWaitlist === 'function') {
-      showToast('⏳ Adding you to the waitlist...');
-      window.addToWaitlist(email)
-        .then(() => {
-          showToast('✅ Added to waitlist! Check your email.');
-          emailInput.value = '';
-        })
-        .catch(error => {
-          console.error('Waitlist save failed:', error);
-          showToast('❌ Failed to add email. Try again.');
-        });
-    } else {
-      showToast('⚠️ Firebase is not configured yet.');
-    }
-  } else {
-    showToast('❌ Please enter a valid email');
-  }
-}
-
-// Intersection Observer for reveal animations
+// Intersection Observer for reveal animations + Waitlist form
 document.addEventListener('DOMContentLoaded', function() {
   const observerOptions = {
     threshold: 0.1,
@@ -190,21 +158,32 @@ document.addEventListener('DOMContentLoaded', function() {
       if (links) links.classList.remove('open');
     });
   });
-});
 
-// ========== WAITLIST FORM ==========
-const form = document.getElementById('waitlist-form');
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const emailInput = document.getElementById('email-input');
-  const email = emailInput?.value.trim();
-  if (!email || !email.includes('@')) {
-    showToast('❌ Please enter a valid email');
-    return;
+  // ========== WAITLIST FORM ==========
+  const form = document.getElementById('waitlist-form');
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const emailInput = document.getElementById('email-input');
+      const email = emailInput?.value.trim();
+      if (!email || !email.includes('@')) {
+        showToast('❌ Please enter a valid email');
+        return;
+      }
+
+      try {
+        await fetch('https://formspree.io/f/mjgdvyqv', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+        showToast('🎉 You\'re on the waitlist!');
+      } catch (err) {
+        showToast('❌ Something went wrong. Try again.');
+      }
+    });
   }
-
-  form.style.display = 'none';
-  document.getElementById('success-msg').style.display = 'block';
-  showToast('🎉 You’re on the waitlist!');
-  if (emailInput) emailInput.value = '';
+  
 });
