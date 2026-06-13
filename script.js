@@ -107,7 +107,7 @@ function sendMsg() {
       const userMsg = document.createElement('div');
       userMsg.className = 'bubble-row mine';
       userMsg.innerHTML = `
-        <div class="bav" style="background:#1E1240;color:#9D6FEC">S</div>
+        <div class="bav" style="background:var(--v3);color:var(--v2)">S</div>
         <div><div class="bubble mine">${message}</div><div class="btime" style="text-align:right">Just now</div></div>
       `;
       feed.appendChild(userMsg);
